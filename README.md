@@ -32,7 +32,7 @@ A responsive web application for browsing artworks from the Art Institute of Chi
  ```bash
    npm i 
    
-    ```
+ ```
 
 ## Live link 
 link  https://react-intern-1.onrender.com
