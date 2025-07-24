@@ -1,12 +1,12 @@
-import { useState, useRef, useEffect } from 'react';
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
-import { Paginator, type PaginatorPageChangeEvent } from 'primereact/paginator';
-import axios from 'axios';
-import { SelectionPanel } from './SelectionPanel';
-import type { Artwork, ArtworkApiResponse } from '../types/artwork';
+import { useState, useRef, useEffect } from "react";
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
+import { Paginator, type PaginatorPageChangeEvent } from "primereact/paginator";
+import axios from "axios";
+import { SelectionPanel } from "./SelectionPanel";
+import type { Artwork, ArtworkApiResponse } from "../types/artwork";
 
-const API_URL = 'https://api.artic.edu/api/v1/artworks';
+const API_URL = "https://api.artic.edu/api/v1/artworks";
 
 export const ArtworkTable = () => {
   const [artworks, setArtworks] = useState<Artwork[]>([]);
@@ -19,15 +19,17 @@ export const ArtworkTable = () => {
   const fetchArtworks = async (page: number) => {
     setLoading(true);
     try {
-      const response = await axios.get<ArtworkApiResponse>(`${API_URL}?page=${page}`);
+      const response = await axios.get<ArtworkApiResponse>(
+        `${API_URL}?page=${page}`
+      );
       const { data, pagination } = response.data;
 
       const transformedData = data.map((item: any) => ({
         id: item.id,
-        title: item.title || 'Untitled',
-        place_of_origin: item.place_of_origin || 'Unknown',
-        artist_display: item.artist_display || 'Unknown artist',
-        inscriptions: item.inscriptions || 'No inscriptions',
+        title: item.title || "Untitled",
+        place_of_origin: item.place_of_origin || "Unknown",
+        artist_display: item.artist_display || "Unknown artist",
+        inscriptions: item.inscriptions || "No inscriptions",
         date_start: item.date_start || 0,
         date_end: item.date_end || 0,
       }));
@@ -36,7 +38,7 @@ export const ArtworkTable = () => {
       setTotalRecords(pagination.total);
       setCurrentPage(pagination.current_page);
     } catch (error) {
-      console.error('Error fetching artworks:', error);
+      console.error("Error fetching artworks:", error);
     } finally {
       setLoading(false);
     }
@@ -48,7 +50,7 @@ export const ArtworkTable = () => {
 
   const onPageChange = (event: PaginatorPageChangeEvent) => {
     fetchArtworks(event.page + 1);
-    setSelectedArtworks([]); // Reset selection on page change
+    setSelectedArtworks([]); 
   };
 
   const onSelectionChange = (e: { value: Artwork[] }) => {
@@ -57,28 +59,28 @@ export const ArtworkTable = () => {
 
   const onToggleAll = (selectAll: boolean) => {
     if (selectAll) {
-      setSelectedArtworks(artworks); // Select all on current page
+      setSelectedArtworks(artworks); 
     } else {
-      setSelectedArtworks([]); // Clear selection
+      setSelectedArtworks([]); 
     }
   };
 
   const isRowSelected = (artwork: Artwork) => {
-    return selectedArtworks.some(selected => selected.id === artwork.id);
+    return selectedArtworks.some((selected) => selected.id === artwork.id);
   };
 
   const rowClassName = (artwork: Artwork) => {
-    return isRowSelected(artwork) ? 'bg-blue-50' : '';
+    return isRowSelected(artwork) ? "bg-blue-50" : "";
   };
 
   return (
     <div className="card">
       <SelectionPanel
-        tableRef={tableRef}
-        selectedArtworks={new Set(selectedArtworks.map(a => a.id))}
+        selectedArtworks={new Set(selectedArtworks.map((a) => a.id))}
         totalRecords={totalRecords}
         onToggleAll={onToggleAll}
       />
+      
 
       <DataTable
         ref={tableRef}
@@ -91,7 +93,7 @@ export const ArtworkTable = () => {
         selection={selectedArtworks}
         onSelectionChange={onSelectionChange}
       >
-        <Column selectionMode="multiple" headerStyle={{ width: '3rem' }} />
+        <Column selectionMode="multiple" headerStyle={{ width: "3rem" }} />
         <Column field="title" header="Title" sortable />
         <Column field="place_of_origin" header="Origin" sortable />
         <Column field="artist_display" header="Artist" sortable />

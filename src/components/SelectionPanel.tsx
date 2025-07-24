@@ -1,14 +1,10 @@
-import { DataTable } from 'primereact/datatable';
-
 interface SelectionPanelProps {
-  tableRef: React.RefObject<DataTable>;
   selectedArtworks: Set<number>;
   totalRecords: number;
   onToggleAll: (selectAll: boolean) => void;
 }
 
 export const SelectionPanel = ({
-  tableRef,
   selectedArtworks,
   totalRecords,
   onToggleAll,
